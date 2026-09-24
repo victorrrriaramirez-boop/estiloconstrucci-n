@@ -1,0 +1,1 @@
+export default function Visual({stage=0}:{stage?:number}){return <div className="visual-shell" data-stage={stage} aria-hidden="true"><div className="visual-grid"/><div className="tower t1"/><div className="tower t2"/><div className="tower t3"/><div className="crane"><i/><b/></div><div className="ground-line"/></div>}
