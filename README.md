@@ -1,4 +1,8 @@
-# COTA Construcción — Next.js + Scrollytelling + SEO
+# COTA Construcción — demo SEO + scrollytelling
+
+**Dirección visual:** Técnico / brutalista: retícula, códigos, planos, secuencia constructiva y escáner blueprint-to-build.
+
+Esta versión incluye dos experiencias de scrollytelling en la Home, responsive y preparada para GitHub/Vercel.
 
 Plantilla demo preparada para GitHub y Vercel. Incluye diseño premium responsive, scrollytelling con Framer Motion y estructura SEO multipágina.
 

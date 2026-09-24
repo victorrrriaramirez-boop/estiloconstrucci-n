@@ -1,32 +1,6 @@
 "use client";
 import { motion, MotionValue, useScroll, useSpring, useTransform } from "framer-motion";
 import { useRef } from "react";
-import Visual from "./Visual";
-const steps=[
-  {num:"01", title:"Terreno", text:"Replanteo, preparación y cimentación convierten el proyecto en una obra real."},
-  {num:"02", title:"Estructura", text:"Hormigón, acero y sistemas portantes definen la estabilidad y la geometría del edificio."},
-  {num:"03", title:"Envolvente", text:"Fachada, aislamiento, cubierta y carpinterías protegen el interior y condicionan su eficiencia."},
-  {num:"04", title:"Entrega", text:"Instalaciones y acabados se coordinan hasta cerrar remates, pruebas y revisión final."}
-];
-function StoryStep({s,i,progress}:{s:(typeof steps)[number];i:number;progress:MotionValue<number>}){
- const start=i/steps.length, mid=(i+.5)/steps.length, end=(i+1)/steps.length;
- const opacity=useTransform(progress,[Math.max(0,start-.05),mid,Math.min(1,end+.05)],[.16,1,.16]);
- const x=useTransform(progress,[start,mid,end],[18,0,-12]);
- return <motion.article style={{opacity,x}} className="story-step"><span>{s.num}</span><div><h3>{s.title}</h3><p>{s.text}</p></div></motion.article>
-}
-export default function Story(){
- const ref=useRef<HTMLDivElement>(null);
- const {scrollYProgress}=useScroll({target:ref,offset:["start start","end end"]});
- const progress=useSpring(scrollYProgress,{stiffness:85,damping:24,mass:.35});
- const y=useTransform(progress,[0,1],["7%","-7%"]);
- const scale=useTransform(progress,[0,.5,1],[.9,1.04,.94]);
- const rotate=useTransform(progress,[0,1],[-2,2]);
- const bar=useTransform(progress,[0,1],["0%","100%"]);
- return <section ref={ref} id="story" className="story-wrap">
-   <div className="story-sticky shell">
-    <div className="story-copy"><p className="eyebrow">SCROLLYTELLING</p><h2>Un edificio no aparece de golpe. Se sostiene en decisiones encadenadas que tienen que llegar en el orden correcto.</h2><div className="story-steps">{steps.map((s,i)=><StoryStep key={s.num} s={s} i={i} progress={progress} />)}</div></div>
-    <motion.div className="story-visual" style={{y,scale,rotate}}><Visual stage={0}/></motion.div>
-    <div className="story-progress"><motion.i style={{width:bar}}/></div>
-   </div>
- </section>
-}
+const steps=[{n:"00",t:"REPLANTEO",p:"Ejes, cotas y referencias trasladan el proyecto al terreno."},{n:"01",t:"CIMENTACIÓN",p:"La base se ejecuta según geometría, cargas y condiciones previstas."},{n:"02",t:"ESTRUCTURA",p:"Pilares, forjados y núcleos definen volumen y estabilidad."},{n:"03",t:"ENVOLVENTE",p:"Fachada, cubierta y huecos empiezan a controlar clima y protección."},{n:"04",t:"SISTEMAS",p:"Instalaciones se integran con recorridos coordinados y registros accesibles."},{n:"05",t:"CIERRE",p:"Acabados, pruebas y repasos convierten ejecución en entrega."}];
+function Step({s,i,p}:{s:(typeof steps)[number];i:number;p:MotionValue<number>}){const a=i/steps.length,b=(i+.5)/steps.length,c=(i+1)/steps.length;return <motion.article className="story-step" style={{opacity:useTransform(p,[a,b,c],[.15,1,.15]),x:useTransform(p,[a,b,c],[-10,0,10])}}><span>{s.n}</span><div><h3>{s.t}</h3><p>{s.p}</p></div></motion.article>}
+export default function Story(){const ref=useRef<HTMLElement>(null);const {scrollYProgress}=useScroll({target:ref,offset:["start start","end end"]});const p=useSpring(scrollYProgress,{stiffness:82,damping:28,mass:.25});const ground=useTransform(p,[0,.18],[0,1]);const foundation=useTransform(p,[.12,.34],[0,1]);const frame=useTransform(p,[.28,.58],[0,1]);const facade=useTransform(p,[.50,.76],[0,1]);const services=useTransform(p,[.66,.88],[0,1]);const done=useTransform(p,[.82,1],[0,1]);const level=useTransform(p,[0,1],["4%","92%"]);const facadeClip=useTransform(facade,[0,1],["inset(100% 0 0 0)","inset(0% 0 0 0)"]);const bar=useTransform(p,[0,1],["0%","100%"]);return <section ref={ref} id="story" className="story-wrap build-story"><div className="story-sticky shell"><div className="story-copy"><p className="eyebrow">SCROLL 01 / SECUENCIA DE EJECUCIÓN</p><h2>La obra aparece capa por capa.</h2><div className="story-steps">{steps.map((s,i)=><Step key={s.n} s={s} i={i} p={p}/>)}</div></div><div className="story-visual"><div className="build-scene"><div className="build-grid"/><motion.div className="earth" style={{scaleX:ground}}/><motion.div className="foundation" style={{scaleY:foundation}}/><motion.div className="frame" style={{opacity:frame}}><i/><i/><i/><i/><b/><b/><b/></motion.div><motion.div className="facade" style={{clipPath:facadeClip}}/><motion.div className="mep" style={{opacity:services}}><i/><i/><i/></motion.div><motion.div className="complete-mark" style={{opacity:done,scale:done}}>✓</motion.div><motion.div className="level-line" style={{top:level}}><span>+00.000</span></motion.div></div></div><div className="story-progress"><motion.i style={{width:bar}}/></div></div></section>}
